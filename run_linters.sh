@@ -32,27 +32,27 @@ fi
 # Check/fix formatting with black
 echo "Running black..."
 if [ "$FIX_MODE" = true ]; then
-    black kybra_simple_logging tests
+    black ic_python_logging tests
 else
-    black kybra_simple_logging tests --check
+    black ic_python_logging tests --check
 fi
 
 # Check/fix imports with isort
 echo "Running isort..."
 if [ "$FIX_MODE" = true ]; then
-    isort kybra_simple_logging tests
+    isort ic_python_logging tests
 else
-    isort kybra_simple_logging tests --check-only
+    isort ic_python_logging tests --check-only
 fi
 
 # Lint with flake8 (no auto-fix available)
 echo "Running flake8..."
 # Using configuration from setup.cfg
-flake8 kybra_simple_logging tests
+flake8 ic_python_logging tests
 
 # Type check with mypy (no auto-fix available)
 echo "Running mypy..."
 # Using configuration from setup.cfg
-mypy kybra_simple_logging tests
+mypy ic_python_logging tests
 
 echo "All linters completed successfully!"

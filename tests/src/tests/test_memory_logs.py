@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from kybra_simple_logging import (  # In-memory logging imports
+from ic_python_logging import (  # In-memory logging imports
     Level,
     clear_logs,
     disable_logging,
@@ -19,7 +19,7 @@ from kybra_simple_logging import (  # In-memory logging imports
 def custom_print(message):
     """Print wrapper that works in both normal and IC environments"""
     try:
-        from kybra import ic
+        from basilisk import ic
 
         ic.print(message)
     except:
@@ -116,8 +116,8 @@ def test_basic_memory_logging():
             info_found = True
             assert log["level"] == "INFO", f"Expected INFO level, got {log['level']}"
             assert (
-                log["logger_name"] == "kybra_simple_logging"
-            ), f"Expected kybra_simple_logging logger, got {log['logger_name']}"
+                log["logger_name"] == "ic_python_logging"
+            ), f"Expected ic_python_logging logger, got {log['logger_name']}"
 
         if "[MEMORY-TEST] Warning message" in log["message"]:
             warning_found = True
@@ -196,13 +196,13 @@ def test_log_filtering():
 
     # 3. Test combined filtering
     default_info_logs = get_logs(
-        min_level=Level.INFO, logger_name="kybra_simple_logging"
+        min_level=Level.INFO, logger_name="ic_python_logging"
     )
     custom_print(f"Retrieved {len(default_info_logs)} INFO+ logs from default logger")
 
     for log in default_info_logs:
         assert (
-            log["logger_name"] == "kybra_simple_logging"
+            log["logger_name"] == "ic_python_logging"
         ), f"Found wrong logger in combined filter: {log['logger_name']}"
         assert log["level"] in [
             "INFO",

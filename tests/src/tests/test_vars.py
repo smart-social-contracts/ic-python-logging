@@ -1,11 +1,11 @@
 try:
-    from kybra import ic
+    from basilisk import ic
 except:
     pass
 
 import sys
 
-from kybra_simple_logging import (
+from ic_python_logging import (
     list_vars,
     load_var,
     logger,

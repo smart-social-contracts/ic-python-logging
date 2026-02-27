@@ -9,7 +9,7 @@ docker run --rm \
     -v "${PWD}/src:/app/src" \
     -v "${PWD}/dfx.json:/app/dfx.json" \
     -v "${PWD}/entrypoint.sh:/app/entrypoint.sh" \
-    -v "${PWD}/..:/app/kybra-simple-logging-source" \
+    -v "${PWD}/..:/app/ic-python-logging-source" \
     -v "${PWD}/example:/app/example" \
     --entrypoint "bash" \
     $IMAGE_ADDRESS \

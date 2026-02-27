@@ -2,9 +2,9 @@
 set -e
 set -x
 
-# Build and install the kybra-simple-logging package from source
-echo "Building and installing kybra-simple-logging wheel..."
-cd /app/kybra-simple-logging-source
+# Build and install the ic-python-logging package from source
+echo "Building and installing ic-python-logging wheel..."
+cd /app/ic-python-logging-source
 python -m pip install --upgrade pip wheel build
 python -m build --wheel
 pip install dist/*.whl
@@ -107,7 +107,7 @@ rm -f /tmp/cli_level_test.txt
 
 # Deploy the example canister
 echo "Deploying example canister..."
-cd /app/kybra-simple-logging-source/example
+cd /app/ic-python-logging-source/example
 dfx deploy
 echo "Example canister deployed successfully!"
 sleep 5

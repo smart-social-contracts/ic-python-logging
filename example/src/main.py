@@ -1,6 +1,6 @@
-from kybra import ic, query, heartbeat, void
+from basilisk import ic, query, heartbeat, void
 
-from kybra_simple_logging import get_logger
+from ic_python_logging import get_logger
 
 
 @heartbeat
@@ -13,11 +13,11 @@ def heartbeat_() -> void:
     logger.critical("Heartbeat")
 
 
-# ##### Import Kybra and the internal function #####
+# ##### Import Basilisk and the internal function #####
 
-from kybra import Opt, Record, Vec, nat, query  # noqa: E402
+from basilisk import Opt, Record, Vec, nat, query  # noqa: E402
 
-from kybra_simple_logging import get_canister_logs as _get_canister_logs  # noqa: E402
+from ic_python_logging import get_canister_logs as _get_canister_logs  # noqa: E402
 
 
 # Define the PublicLogEntry class directly in the test canister

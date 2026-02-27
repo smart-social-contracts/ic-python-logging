@@ -5,18 +5,18 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="kybra_simple_logging",
+    name="ic_python_logging",
     version="0.2.0",
     author="Smart Social Contracts",
     author_email="smartsocialcontracts@gmail.com",
-    description="A robust logging system for Internet Computer canisters built with Kybra",
+    description="A robust logging system for Internet Computer canisters",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/smart-social-contracts/kybra-simple-logging",
+    url="https://github.com/smart-social-contracts/ic-python-logging",
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "kslog=kybra_simple_logging.cli:main",
+            "kslog=ic_python_logging.cli:main",
         ],
     },
     classifiers=[

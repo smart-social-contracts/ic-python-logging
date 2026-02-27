@@ -1,12 +1,12 @@
-# Kybra Simple Logging
+# IC Python Logging
 
-[![Test IC](https://github.com/smart-social-contracts/kybra-simple-logging/actions/workflows/test_ic.yml/badge.svg)](https://github.com/smart-social-contracts/kybra-simple-logging/actions)
-[![Test](https://github.com/smart-social-contracts/kybra-simple-logging/actions/workflows/test.yml/badge.svg)](https://github.com/smart-social-contracts/kybra-simple-logging/actions)
-[![PyPI version](https://badge.fury.io/py/kybra-simple-logging.svg)](https://badge.fury.io/py/kybra-simple-logging)
+[![Test IC](https://github.com/smart-social-contracts/ic-python-logging/actions/workflows/test_ic.yml/badge.svg)](https://github.com/smart-social-contracts/ic-python-logging/actions)
+[![Test](https://github.com/smart-social-contracts/ic-python-logging/actions/workflows/test.yml/badge.svg)](https://github.com/smart-social-contracts/ic-python-logging/actions)
+[![PyPI version](https://badge.fury.io/py/ic-python-logging.svg)](https://badge.fury.io/py/ic-python-logging)
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3107/)
-[![License](https://img.shields.io/github/license/smart-social-contracts/kybra-simple-logging.svg)](https://github.com/smart-social-contracts/kybra-simple-logging/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/smart-social-contracts/ic-python-logging.svg)](https://github.com/smart-social-contracts/ic-python-logging/blob/main/LICENSE)
 
-A simple logging system for the [Internet Computer](https://internetcomputer.org) built with [Kybra](https://github.com/demergent-labs/kybra). The library includes in-memory log storage capabilities, providing robust logging for all canister functions including asynchronous operations.
+A simple logging system for the [Internet Computer](https://internetcomputer.org). Forked from [kybra-simple-logging](https://github.com/smart-social-contracts/kybra-simple-logging). The library includes in-memory log storage capabilities, providing robust logging for all canister functions including asynchronous operations.
 
 
 ## Features
@@ -24,13 +24,13 @@ A simple logging system for the [Internet Computer](https://internetcomputer.org
 ## Installation
 
 ```bash
-pip install kybra-simple-logging
+pip install ic-python-logging
 ```
 
 ## Quick Start
 
 ```python
-from kybra_simple_logging import get_logger
+from ic_python_logging import get_logger
 
 # Create a logger
 logger = get_logger("my_canister")
@@ -42,7 +42,7 @@ logger.info("This is an info message")
 logger.set_level(LogLevel.DEBUG)
 
 # Use in-memory logging to retrieve logs
-from kybra_simple_logging import get_logs, clear_logs, enable_memory_logging, disable_memory_logging
+from ic_python_logging import get_logs, clear_logs, enable_memory_logging, disable_memory_logging
 
 # Retrieve only ERROR logs
 error_logs = get_logs(min_level="ERROR")
@@ -64,10 +64,10 @@ kslog <CANISTER_ID> --tail 10 --level ERROR --name MY_LOGGER_NAME --follow --ic 
 To use this `kslog` with your canister, expose the query function:
 
 ```python
-# ##### Import Kybra and the internal function #####
+# ##### Import Basilisk and the internal function #####
 
-from kybra import Opt, Record, Vec, nat, query
-from kybra_simple_logging import get_canister_logs as _get_canister_logs
+from basilisk import Opt, Record, Vec, nat, query
+from ic_python_logging import get_canister_logs as _get_canister_logs
 
 
 # Define the PublicLogEntry class directly in the test canister
@@ -114,16 +114,16 @@ def get_canister_logs(
 
 ```bash
 # Clone the repository
-git clone https://github.com/smart-social-contracts/kybra-simple-logging.git
-cd kybra-simple-logging
+git clone https://github.com/smart-social-contracts/ic-python-logging.git
+cd ic-python-logging
 
 # Recommended setup
 pyenv install 3.10.7
 pyenv local 3.10.7
 python -m venv venv
 source venv/bin/activate
-pip install kybra
-python -m kybra install-dfx-extension
+pip install ic-basilisk
+python -m basilisk install-dfx-extension
 
 # Install development dependencies
 pip install -r requirements-dev.txt

@@ -1,7 +1,7 @@
 import os
 import sys
 
-from kybra_simple_logging import (
+from ic_python_logging import (
     Level,
     disable_logging,
     enable_logging,
@@ -13,12 +13,12 @@ from kybra_simple_logging import (
     save_var,
     set_log_level,
 )
-from kybra_simple_logging._handler import _LOG_STORAGE
+from ic_python_logging._handler import _LOG_STORAGE
 
 # Determine if we're in IC environment
 IN_IC_ENVIRONMENT = False
 try:
-    from kybra import ic
+    from basilisk import ic
 
     ic.print("")
     IN_IC_ENVIRONMENT = True

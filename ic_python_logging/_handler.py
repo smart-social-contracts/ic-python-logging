@@ -88,8 +88,11 @@ def _store_log_entry(level: Level, message: str, logger_name: str) -> None:
 # Now try to use the IC-specific functionality if available and working
 _in_ic_environment = False
 try:
-    # First check if we can import kybra
-    from kybra import ic
+    # Import IC functionality via CDK compatibility layer
+    from ._cdk import ic, HAS_CDK, IN_IC_ENVIRONMENT
+
+    if not HAS_CDK:
+        raise ImportError("CDK not available")
 
     # Now safely test if ic.print actually works
     try:
@@ -134,12 +137,12 @@ try:
         pass
 
 except ImportError:
-    # If kybra isn't available, we're definitely not in an IC environment
-    print("Note: Kybra not available, using regular print for logging")
+    # If CDK isn't available, we're definitely not in an IC environment
+    print("Note: IC CDK not available, using regular print for logging")
 
 
 class SimpleLogger:
-    def __init__(self, name: str = "kybra_simple_logger", level: Level = Level.INFO):
+    def __init__(self, name: str = "ic_python_logger", level: Level = Level.INFO):
         self.name = name
         self.level = level
 
@@ -176,7 +179,7 @@ class SimpleLogger:
 
 
 # Public API functions
-def get_logger(name: str = "kybra_simple_logging") -> SimpleLogger:
+def get_logger(name: str = "ic_python_logging") -> SimpleLogger:
     """Get or create a logger with the specified name"""
     if name not in _LOGGERS:
         _LOGGERS[name] = SimpleLogger(name)
@@ -335,8 +338,18 @@ def set_max_log_entries(max_entries: int) -> None:
 
 
 try:
-    # Add Kybra imports for the query function
-    from kybra import Opt, Record, Vec, nat, query
+    # Add CDK imports for the query function via compatibility layer
+    _types = None
+    try:
+        from ._cdk import _import_types
+        _types = _import_types()
+    except ImportError:
+        pass
+
+    if _types is None:
+        raise ImportError("CDK types not available")
+
+    Opt, Record, Vec, nat, query = _types
 
     # Define a public-facing LogEntry type for queries
     class PublicLogEntry(Record):
@@ -388,6 +401,6 @@ try:
         ]
 
 except ImportError:
-    # If kybra isn't available, we don't expose the query function
+    # If CDK isn't available, we don't expose the query function
     # This allows the library to be used in non-IC environments
     pass

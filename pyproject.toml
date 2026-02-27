@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "kybra_simple_logging"
+name = "ic_python_logging"
 version = "0.2.0"
-description = "A lightweight logging library for Kybra on the Internet Computer (IC)"
+description = "A lightweight logging library for the Internet Computer (IC)"
 readme = "README.md"
 authors = [
     { name = "Smart Social Contracts", email = "smartsocialcontracts@gmail.com" }
@@ -26,12 +26,12 @@ requires-python = "==3.10.7"
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/smart-social-contracts/kybra-simple-logging"
-Repository = "https://github.com/smart-social-contracts/kybra-simple-logging.git"
-Issues = "https://github.com/smart-social-contracts/kybra-simple-logging/issues"
+Homepage = "https://github.com/smart-social-contracts/ic-python-logging"
+Repository = "https://github.com/smart-social-contracts/ic-python-logging.git"
+Issues = "https://github.com/smart-social-contracts/ic-python-logging/issues"
 
 [project.scripts]
-kslog = "kybra_simple_logging.cli:main"
+kslog = "ic_python_logging.cli:main"
 
 [tool.setuptools]
-packages = ["kybra_simple_logging"]
+packages = ["ic_python_logging"]
