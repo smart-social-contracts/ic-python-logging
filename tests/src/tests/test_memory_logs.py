@@ -195,9 +195,7 @@ def test_log_filtering():
         ), f"Found wrong logger in info_only logs: {log['logger_name']}"
 
     # 3. Test combined filtering
-    default_info_logs = get_logs(
-        min_level=Level.INFO, logger_name="ic_python_logging"
-    )
+    default_info_logs = get_logs(min_level=Level.INFO, logger_name="ic_python_logging")
     custom_print(f"Retrieved {len(default_info_logs)} INFO+ logs from default logger")
 
     for log in default_info_logs:

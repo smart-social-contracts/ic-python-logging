@@ -89,7 +89,7 @@ def _store_log_entry(level: Level, message: str, logger_name: str) -> None:
 _in_ic_environment = False
 try:
     # Import IC functionality via CDK compatibility layer
-    from ._cdk import ic, HAS_CDK, IN_IC_ENVIRONMENT
+    from ._cdk import HAS_CDK, IN_IC_ENVIRONMENT, ic
 
     if not HAS_CDK:
         raise ImportError("CDK not available")
@@ -342,6 +342,7 @@ try:
     _types = None
     try:
         from ._cdk import _import_types
+
         _types = _import_types()
     except ImportError:
         pass
