@@ -6,7 +6,6 @@ import pickle
 import sys
 import time
 from collections import deque
-from dataclasses import dataclass
 from enum import IntEnum
 from typing import Any, Callable, Deque, Dict, List, Optional, Union
 
@@ -37,15 +36,15 @@ class Level(IntEnum):
         return self.name
 
 
-@dataclass
 class LogEntry:
     """Represents a single log entry stored in memory"""
 
-    timestamp: float
-    level: Level
-    logger_name: str
-    message: str
-    id: int  # Unique identifier for the log entry
+    def __init__(self, timestamp: float, level: Level, logger_name: str, message: str, id: int):
+        self.timestamp = timestamp
+        self.level = level
+        self.logger_name = logger_name
+        self.message = message
+        self.id = id
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert log entry to dictionary for serialization"""
