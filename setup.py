@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="ic_python_logging",
-    version="0.3.1",
+    version="0.3.2",
     author="Smart Social Contracts",
     author_email="smartsocialcontracts@gmail.com",
     description="A robust logging system for Internet Computer canisters",
