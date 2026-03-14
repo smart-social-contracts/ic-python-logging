@@ -1,3 +1,5 @@
+__version__ = "0.3.2"
+
 # Debug variable storage functions
 # New in-memory logging functions
 from ._handler import Level  # Enum for log levels
