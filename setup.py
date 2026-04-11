@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="ic_python_logging",
+    name="ic-python-logging",
     version="0.3.3",
     author="Smart Social Contracts",
     author_email="smartsocialcontracts@gmail.com",
