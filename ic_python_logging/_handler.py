@@ -36,6 +36,16 @@ class Level(IntEnum):
         return self.name
 
 
+# Safe level name lookup that works even when IntEnum members become plain ints
+# (as happens on CPython WASM where IntEnum subclass instances lose enum type)
+_LEVEL_NAMES = {10: "DEBUG", 20: "INFO", 30: "WARNING", 40: "ERROR", 50: "CRITICAL"}
+
+
+def _level_name(level) -> str:
+    """Get human-readable level name regardless of whether level is Level enum or int"""
+    return _LEVEL_NAMES.get(int(level), str(level))
+
+
 class LogEntry:
     """Represents a single log entry stored in memory"""
 
@@ -52,9 +62,7 @@ class LogEntry:
         """Convert log entry to dictionary for serialization"""
         return {
             "timestamp": self.timestamp,
-            "level": (
-                self.level.name if isinstance(self.level, Level) else str(self.level)
-            ),
+            "level": _level_name(self.level),
             "logger_name": self.logger_name,
             "message": self.message,
             "id": self.id,
@@ -65,7 +73,7 @@ class LogEntry:
 def _print_log(level: Level, message: str, logger_name: str) -> None:
     if not _LOGGING_ENABLED:
         return
-    print(f"[{level.name}] [{logger_name}] {message}")
+    print(f"[{_level_name(level)}] [{logger_name}] {message}")
     # Store in memory regardless of print settings
     _store_log_entry(level, message, logger_name)
 
@@ -112,7 +120,7 @@ try:
         def _ic_print_log(level: Level, message: str, logger_name: str) -> None:
             if not _LOGGING_ENABLED:
                 return
-            ic.print(f"[{level.name}] [{logger_name}] {message}")
+            ic.print(f"[{_level_name(level)}] [{logger_name}] {message}")
             # Store in memory regardless of print settings
             _store_log_entry(level, message, logger_name)
 
