@@ -68,6 +68,8 @@ fi
 # Run memory logging tests
 echo "Testing memory logging module..."
 TEST_RESULT=$(dfx canister call test run_memory_logs_test)
+echo "Canister debug logs:"
+dfx canister logs test 2>/dev/null || true
 if [ "$TEST_RESULT" != '(0 : int)' ]; then
   echo "Error: run_memory_logs_test returned unexpected result: $TEST_RESULT"
   dfx stop

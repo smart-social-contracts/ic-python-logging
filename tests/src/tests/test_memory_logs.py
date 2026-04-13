@@ -28,55 +28,45 @@ def custom_print(message):
 
 def run_tests():
     """Run all memory logging tests"""
+    import traceback
+
     failures = 0
     total = 0
 
     custom_print("\n=== Testing Memory Logging ===\n")
 
-    # Test 1: Basic Memory Logging
-    total += 1
-    try:
-        test_basic_memory_logging()
-        custom_print("✓ Basic memory logging test passed!")
-    except AssertionError as e:
-        custom_print(f"✗ Basic memory logging test FAILED: {e}")
-        failures += 1
+    # Debug: check module state
+    from ic_python_logging._handler import (
+        _LOGGING_ENABLED,
+        _MEMORY_LOGGING_ENABLED,
+        _LOG_STORAGE,
+        _print_log,
+        _store_log_entry,
+    )
 
-    # Test 2: Log Filtering
-    total += 1
-    try:
-        test_log_filtering()
-        custom_print("✓ Log filtering test passed!")
-    except AssertionError as e:
-        custom_print(f"✗ Log filtering test FAILED: {e}")
-        failures += 1
+    custom_print(f"[DEBUG] _LOGGING_ENABLED={_LOGGING_ENABLED}")
+    custom_print(f"[DEBUG] _MEMORY_LOGGING_ENABLED={_MEMORY_LOGGING_ENABLED}")
+    custom_print(f"[DEBUG] _LOG_STORAGE type={type(_LOG_STORAGE).__name__}, len={len(_LOG_STORAGE)}")
+    custom_print(f"[DEBUG] _print_log={_print_log.__name__}")
+    custom_print(f"[DEBUG] _store_log_entry={_store_log_entry.__name__}")
 
-    # Test 3: Max Entries
-    total += 1
-    try:
-        test_max_entries()
-        custom_print("✓ Max entries test passed!")
-    except AssertionError as e:
-        custom_print(f"✗ Max entries test FAILED: {e}")
-        failures += 1
+    test_funcs = [
+        ("Basic memory logging", test_basic_memory_logging),
+        ("Log filtering", test_log_filtering),
+        ("Max entries", test_max_entries),
+        ("Memory logging toggle", test_memory_logging_toggle),
+        ("Log entry IDs", test_log_entry_ids),
+    ]
 
-    # Test 4: Memory Logging Toggle
-    total += 1
-    try:
-        test_memory_logging_toggle()
-        custom_print("✓ Memory logging toggle test passed!")
-    except AssertionError as e:
-        custom_print(f"✗ Memory logging toggle test FAILED: {e}")
-        failures += 1
-
-    # Test 5: Log Entry IDs and Order
-    total += 1
-    try:
-        test_log_entry_ids()
-        custom_print("✓ Log entry ID and ordering test passed!")
-    except AssertionError as e:
-        custom_print(f"✗ Log entry ID and ordering test FAILED: {e}")
-        failures += 1
+    for name, func in test_funcs:
+        total += 1
+        try:
+            func()
+            custom_print(f"✓ {name} test passed!")
+        except Exception as e:
+            custom_print(f"✗ {name} test FAILED ({type(e).__name__}): {e}")
+            custom_print(f"  Traceback: {traceback.format_exc()}")
+            failures += 1
 
     custom_print("\n=== Memory Logging Tests Complete ===")
     custom_print(f"Ran {total} tests with {failures} failures")
