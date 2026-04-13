@@ -8,14 +8,28 @@ cd /app/ic-python-logging-source
 python -m pip install --upgrade pip wheel build
 python -m build --wheel
 pip install dist/*.whl
+
+# Ensure latest basilisk is installed
+pip install --upgrade ic-basilisk
+
+# Pre-download CPython canister template if not cached
+BASILISK_VERSION=$(python3 -c "import basilisk; print(basilisk.__version__)")
+TEMPLATE_DIR="$HOME/.config/basilisk/${BASILISK_VERSION}"
+TEMPLATE_FILE="${TEMPLATE_DIR}/cpython_canister_template.wasm"
+if [ ! -f "$TEMPLATE_FILE" ]; then
+    mkdir -p "$TEMPLATE_DIR"
+    curl -Lf "https://github.com/smart-social-contracts/basilisk/releases/download/cpython-wasm-3.13.0/cpython_canister_template.wasm" \
+        -o "$TEMPLATE_FILE"
+fi
 cd /app
 
 # Start dfx in the background
 echo "Starting dfx..."
 dfx start --background --clean > /tmp/log.txt 2>&1
 
-# Deploy the test canister
-echo "Deploying test canister..."
+# Build and deploy the test canister
+echo "Building and deploying test canister..."
+CANISTER_CANDID_PATH=./test.did python -m basilisk test src/main.py
 dfx deploy
 
 # Define a list of test identifiers

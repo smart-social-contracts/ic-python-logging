@@ -8,7 +8,7 @@ version = "0.3.3"
 description = "A lightweight logging library for the Internet Computer (IC)"
 readme = "README.md"
 authors = [
-    { name = "Smart Social Contracts", email = "smartsocialcontracts@gmail.com" }
+    { name = "Smart Social Contracts", email = "contact@smartsocialcontracts.org" }
 ]
 license = { file = "LICENSE" }
 classifiers = [
@@ -18,11 +18,11 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
-    "Topic :: Database",
+    "Topic :: System :: Logging",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 keywords = ["logging", "debugging", "ic", "internet-computer"]
-requires-python = "==3.10.7"
+requires-python = ">=3.10"
 dependencies = []
 
 [project.urls]

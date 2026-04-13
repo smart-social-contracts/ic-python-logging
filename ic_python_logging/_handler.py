@@ -39,7 +39,9 @@ class Level(IntEnum):
 class LogEntry:
     """Represents a single log entry stored in memory"""
 
-    def __init__(self, timestamp: float, level: Level, logger_name: str, message: str, id: int):
+    def __init__(
+        self, timestamp: float, level: Level, logger_name: str, message: str, id: int
+    ):
         self.timestamp = timestamp
         self.level = level
         self.logger_name = logger_name
