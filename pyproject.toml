@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ic-python-logging"
-version = "0.3.3"
+version = "0.3.4"
 description = "A lightweight logging library for the Internet Computer (IC)"
 readme = "README.md"
 authors = [
