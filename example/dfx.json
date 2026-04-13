@@ -1,14 +1,10 @@
 {
   "canisters": {
     "kslog_example": {
-      "type": "basilisk",
-      "main": "src/main.py"
-    }
-  },
-  "defaults": {
-    "build": {
-      "args": "",
-      "packtool": ""
+      "type": "custom",
+      "build": "CANISTER_CANDID_PATH=./kslog_example.did python -m basilisk kslog_example src/main.py",
+      "candid": "kslog_example.did",
+      "wasm": ".basilisk/kslog_example/kslog_example.wasm"
     }
   },
   "output_env_file": ".env",
