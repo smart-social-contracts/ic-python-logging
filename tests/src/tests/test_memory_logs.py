@@ -37,16 +37,18 @@ def run_tests():
 
     # Debug: check module state
     from ic_python_logging._handler import (
+        _LOG_STORAGE,
         _LOGGING_ENABLED,
         _MEMORY_LOGGING_ENABLED,
-        _LOG_STORAGE,
         _print_log,
         _store_log_entry,
     )
 
     custom_print(f"[DEBUG] _LOGGING_ENABLED={_LOGGING_ENABLED}")
     custom_print(f"[DEBUG] _MEMORY_LOGGING_ENABLED={_MEMORY_LOGGING_ENABLED}")
-    custom_print(f"[DEBUG] _LOG_STORAGE type={type(_LOG_STORAGE).__name__}, len={len(_LOG_STORAGE)}")
+    custom_print(
+        f"[DEBUG] _LOG_STORAGE type={type(_LOG_STORAGE).__name__}, len={len(_LOG_STORAGE)}"
+    )
     custom_print(f"[DEBUG] _print_log={_print_log.__name__}")
     custom_print(f"[DEBUG] _store_log_entry={_store_log_entry.__name__}")
 

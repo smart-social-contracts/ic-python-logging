@@ -19,7 +19,7 @@ _DEBUG_VARS: Dict[str, Any] = {}
 
 # In-memory log storage
 _MAX_LOG_ENTRIES = 1000  # Maximum number of log entries to keep in memory
-_LOG_STORAGE: Deque["LogEntry"] = deque(maxlen=_MAX_LOG_ENTRIES)
+_LOG_STORAGE: Deque["LogEntry"] = deque()
 _LOG_SEQUENCE_COUNTER = 0  # Global counter for generating unique log entry IDs
 
 
@@ -52,7 +52,9 @@ class LogEntry:
         """Convert log entry to dictionary for serialization"""
         return {
             "timestamp": self.timestamp,
-            "level": str(self.level),
+            "level": (
+                self.level.name if isinstance(self.level, Level) else str(self.level)
+            ),
             "logger_name": self.logger_name,
             "message": self.message,
             "id": self.id,
@@ -63,7 +65,7 @@ class LogEntry:
 def _print_log(level: Level, message: str, logger_name: str) -> None:
     if not _LOGGING_ENABLED:
         return
-    print(f"[{level}] [{logger_name}] {message}")
+    print(f"[{level.name}] [{logger_name}] {message}")
     # Store in memory regardless of print settings
     _store_log_entry(level, message, logger_name)
 
@@ -84,6 +86,9 @@ def _store_log_entry(level: Level, message: str, logger_name: str) -> None:
         id=_LOG_SEQUENCE_COUNTER,
     )
     _LOG_STORAGE.append(entry)
+    # Manually enforce max size (deque maxlen may not work on all platforms)
+    while len(_LOG_STORAGE) > _MAX_LOG_ENTRIES:
+        _LOG_STORAGE.popleft()
 
 
 # Now try to use the IC-specific functionality if available and working
@@ -107,7 +112,7 @@ try:
         def _ic_print_log(level: Level, message: str, logger_name: str) -> None:
             if not _LOGGING_ENABLED:
                 return
-            ic.print(f"[{level}] [{logger_name}] {message}")
+            ic.print(f"[{level.name}] [{logger_name}] {message}")
             # Store in memory regardless of print settings
             _store_log_entry(level, message, logger_name)
 
@@ -128,6 +133,9 @@ try:
                 id=_LOG_SEQUENCE_COUNTER,
             )
             _LOG_STORAGE.append(entry)
+            # Manually enforce max size (deque maxlen may not work on all platforms)
+            while len(_LOG_STORAGE) > _MAX_LOG_ENTRIES:
+                _LOG_STORAGE.popleft()
 
         # Replace the regular functions with IC versions
         _print_log = _ic_print_log
@@ -320,7 +328,7 @@ def set_max_log_entries(max_entries: int) -> None:
     global _LOG_STORAGE, _MAX_LOG_ENTRIES
     # Create a new deque with the new max length
     _MAX_LOG_ENTRIES = max(1, max_entries)  # Ensure at least 1 entry
-    new_storage = deque(maxlen=_MAX_LOG_ENTRIES)
+    new_storage = deque()
 
     # Transfer any existing logs (up to the new capacity)
     logs = list(_LOG_STORAGE)
