@@ -14,6 +14,7 @@ from ic_python_logging import (  # In-memory logging imports
     set_log_level,
     set_max_log_entries,
 )
+from ic_python_logging._handler import _level_from_name
 
 
 def custom_print(message):
@@ -36,6 +37,7 @@ def run_tests():
     test_funcs = [
         ("Basic memory logging", test_basic_memory_logging),
         ("Log filtering", test_log_filtering),
+        ("Level names", test_level_names),
         ("Max entries", test_max_entries),
         ("Memory logging toggle", test_memory_logging_toggle),
         ("Log entry IDs", test_log_entry_ids),
@@ -181,6 +183,35 @@ def test_log_filtering():
             "CRITICAL",
         ], f"Found invalid level in INFO+ logs: {log['level']}"
         assert log["level"] != "DEBUG", "DEBUG level found in INFO+ logs"
+
+
+def test_level_names():
+    """get_canister_logs takes the minimum level by name; Level[name] does not exist on WASM."""
+    for name, level in (
+        ("DEBUG", Level.DEBUG),
+        ("INFO", Level.INFO),
+        ("WARNING", Level.WARNING),
+        ("ERROR", Level.ERROR),
+        ("CRITICAL", Level.CRITICAL),
+    ):
+        assert _level_from_name(name) == level, f"{name} is not {level}"
+    assert _level_from_name("error") == Level.ERROR, "names are not case sensitive"
+
+    try:
+        _level_from_name("LOUD")
+    except ValueError as e:
+        assert "LOUD" in str(e), f"the error does not name the level: {e}"
+    else:
+        raise AssertionError("an unknown level name must be refused")
+
+    # The filter the query applies: the same entries as Level.ERROR.
+    clear_logs()
+    get_logger("level_names").warning("[LEVEL-NAMES] warning")
+    get_logger("level_names").error("[LEVEL-NAMES] error")
+    by_name = get_logs(min_level=_level_from_name("ERROR"), logger_name="level_names")
+    assert [log["message"] for log in by_name] == ["[LEVEL-NAMES] error"], by_name
+
+    custom_print("Level name lookup works")
 
 
 def test_max_entries():

@@ -41,9 +41,26 @@ class Level(IntEnum):
 _LEVEL_NAMES = {10: "DEBUG", 20: "INFO", 30: "WARNING", 40: "ERROR", 50: "CRITICAL"}
 
 
+_LEVELS_BY_NAME = {name: level for level, name in _LEVEL_NAMES.items()}
+
+
 def _level_name(level) -> str:
     """Get human-readable level name regardless of whether level is Level enum or int"""
     return _LEVEL_NAMES.get(int(level), str(level))
+
+
+def _level_from_name(name: str) -> int:
+    """The level number for a name such as "ERROR".
+
+    ``Level[name]`` is not available on CPython WASM (the same reason as above:
+    the enum type is lost there), so the name is looked up in the table instead.
+    """
+    try:
+        return _LEVELS_BY_NAME[name.upper()]
+    except KeyError:
+        raise ValueError(
+            f"Unknown log level {name!r}; use one of {', '.join(_LEVELS_BY_NAME)}"
+        ) from None
 
 
 class LogEntry:
@@ -402,7 +419,7 @@ try:
         logs = get_logs(
             from_entry=from_entry,
             max_entries=max_entries,
-            min_level=None if min_level is None else Level[min_level],
+            min_level=None if min_level is None else _level_from_name(min_level),
             logger_name=logger_name,
         )
 
